@@ -1,5 +1,4 @@
 import OpenAI from "openai";
-import { Parser } from "node-sql-parser";
 import { SQLQueryToolEventHandler } from "./sql_query_tool";
 
 const openAI = new OpenAI({
@@ -7,7 +6,7 @@ const openAI = new OpenAI({
 });
 
 const currentDate = new Date();
-const schema = [
+export const TABLE_SCHEMA = [
 	{
 		"schema_name": "ga4_floorforce",
 		"table_name": "web_trends_mv",
@@ -84,7 +83,7 @@ const systemPrompt = `
 The current date is: ${currentDate}
 This user's UUID is: 81d8595a-0e85-4afd-a399-204958879c84
 The following is a JSON document containing schema information about tables in AWS Redshift:
-${JSON.stringify(schema)}
+${JSON.stringify(TABLE_SCHEMA)}
 Please use this information to respond to the user's query.`;
 
 const assistant_id = "asst_WApI6ECfRbKA3fQCoRo14H3E";
