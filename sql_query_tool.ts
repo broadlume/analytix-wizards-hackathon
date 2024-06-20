@@ -108,16 +108,17 @@ class SQLQueryTool {
                 throw new Error(`Field '${field} is missing or undefined`);
             }
         }
+        const sql = (args as any).sql as string;
         const schemaNames = TABLE_SCHEMA.map(t => t.schema_name);
         const tableNames = TABLE_SCHEMA.map(t => t.table_name);
         const columnNames = TABLE_SCHEMA.flatMap(t => Object.keys(t.fields));
         const tableAuthority = `select::(${schemaNames.join("|")})::(${tableNames.join("|")})`;
         const columnAuthority = columnNames.map(name => `select::null::${name}`);
-        const tableCheck = this.sqlParser.whiteListCheck((args as any).sql,[tableAuthority], {
+        const tableCheck = this.sqlParser.whiteListCheck(sql,[tableAuthority], {
             database: "Redshift",
             type: "table"
         });
-        const columnCheck = this.sqlParser.whiteListCheck((args as any).sql,columnAuthority, {
+        const columnCheck = this.sqlParser.whiteListCheck(sql,columnAuthority, {
             database: "Redshift",
             type: "column"
         });
